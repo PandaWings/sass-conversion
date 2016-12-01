@@ -1,1 +1,296 @@
-// main SASS file
+@import "variables";
+@import "mixins";
+/* MOVED TO BOTTOM
+@import "queries";
+*/
+
+
+/*
+ Use SASS variables for colours and fonts.
+4. Use SASS parent selector - &
+5. Use SASS @extend
+6. Use @content with your media queries.
+7. Use Nesting in your SASS.
+8. Use @include with your @mixin s.
+9. Use a @mixin to calculate the sizes of your columns.
+*/
+
+
+* {
+    padding:0;
+    margin: 0;
+    @include box-sizing(border-box);
+    
+    &:after, 
+    &:before {
+        @include box-sizing(inherit);
+    }
+}
+
+html {
+    font-size: 16px;
+    font-family: $font-sans-serif;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-family: $font-serif;
+}
+
+ul {
+    list-style: none;
+}
+
+/***********************************************
+                SPECIAL
+***********************************************/
+
+.clearfix:after{
+    @include clearfix();
+}
+
+/***********************************************
+                LAYOUT
+***********************************************/
+
+.bg-header {
+    @include colorSet($color-blue_light, $color-grey_dark);
+    /* background-color: #fff; */
+    border-bottom:1rem solid #89C0C9;
+    border-top:1rem solid #3a5E63;
+    position: relative;
+    
+    &:before,
+    &:after {
+        content:"";
+        position:absolute;
+        bottom:-1rem;
+        width:30%;
+        height:1rem;
+        background-color: $color-blue_dark;
+    }
+    
+    &:before {
+        left: 0;
+    }
+    
+    &:after {
+        right: 0;
+    }
+}
+
+.bg-focal{
+    @include colorSet($color-brown_light, $color-brown_dark);
+}
+.bg-content1{
+    @include colorSet($color-white, $color-grey_dark);
+}
+.bg-content2{
+    @include colorSet($color-blue_light, $color-blue_dark);
+}
+.bg-footer{
+    @include colorSet($color-white, $color-grey_light);
+}
+
+header {
+    width: 400px;
+    margin: 0 auto;
+    position: relative;
+    
+    h1 {
+        width: 100%;
+        padding: 0 2rem;
+        
+        /**************
+          CONTENT
+        **************/
+        
+        /**#
+        h1 {
+        #**/
+            color: $color-brown_dark;
+            letter-spacing: 0.1rem;
+            
+            i.fa-lg {
+                display:block;
+                width: 25%;
+                float:left;
+                font-size: 7rem;
+                line-height: 12.7936rem;
+                color: $color-brown_light;    
+            
+                & ~ span {
+                        float: right;
+                        width: 75%;
+                        font-size: 3.998rem;
+                        /**
+                        2 lines of 3.998 * 1.6 = 12.7936
+                        **/
+                        padding-left: 1rem;
+                        text-align: right;
+                }
+            }
+        /**#
+        }
+        #**/
+        /******/
+    }
+    
+    nav {
+        width: 100%;
+        
+        > ul li {
+            width: 100%;
+            float: none;
+        }
+        
+        /**************
+          NAVIGATION
+        **************/
+        padding: $padding-default;
+        clear: both;
+        
+        > ul > li > a {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            @include colorSet($color-white, $color-grey_dark);
+            font-size: 1.414rem;
+            letter-spacing: 0.25rem;
+            border:1px solid #d4d4d4; 
+            border-bottom: none;
+            padding:1.0rem 2rem;
+            line-height: 1;
+            
+            &:hover {
+                font-weight: 700;
+                color: $color-brown_dark;
+            }
+        }
+    }
+}
+
+section {
+    &.focal {
+        width: 400px;
+        margin: 0 auto;
+    }
+    
+    %section.contents {
+        padding: $padding-default;
+    }
+    &.content1,
+    &.content2 {
+        @extend %section.contents;
+    }
+}
+
+.row {
+    clear: both;
+}
+
+.col-2 {
+    @include columnSize(2);
+    float: left;
+    padding-bottom: 2rem;
+    border-left: 1px solid $color-blue_dark;
+    margin-bottom: 2rem;
+}
+
+footer {
+    padding: $padding-default;
+    
+    .col-2:first-child {
+        border-left: 0;
+    }
+    
+    /**************
+      FOOTER
+    **************/
+    h4 {
+        font-size: 1.414rem;
+        padding: 0.5rem 2rem;
+        color: $color-brown_dark;
+    }
+    h4[lang=de] {
+        display: block;
+    }
+    h4[lang=en], 
+    h4[lang=ar],
+    h4[lang=ru]    {
+        display: none;
+    }
+    
+    %fa-circle_color {
+        color: $color-grey_dark;
+    }
+    p {
+        font-size: 1rem;
+        padding: 0.5rem 2rem;
+        /*color: $color-grey_dark;*/
+        @extend %fa-circle_color;
+    }
+    .fa-circle {
+        @extend %fa-circle_color;
+    }
+    
+}
+
+/***********************************************
+                CONTENT
+***********************************************/
+
+.focal {
+    h2 {
+        font-size: 1.999rem;
+        line-height: 1.2;
+        padding: 2rem 2rem 1rem 2rem;
+    }
+    
+    .author{
+        font-size: 1rem;
+        padding: 0.2rem 2rem 2rem;
+    }
+}
+
+.content1 h3 {
+    font-size: 1.999rem;
+    padding: 0.2rem 2rem 2rem;
+
+    i {
+        vertical-align: middle;
+        padding-right: 2rem;
+    }
+}
+
+.content2 {
+    /*
+    >>> NOT IN USE according to Google Chrome Audit <<<
+    h3 {
+        font-size: 1.999rem;
+        padding: 1rem 2rem 0.5rem;
+    }
+    */
+    h4 {
+        font-size: 1.999rem;
+        padding: 1rem, 2rem, 0rem;
+    }
+    li {
+        padding: 0.5rem 2rem;
+        font-size: 1.414rem;
+    }
+}
+/*** 
+        WHERE DID THIS COME FROM ???
+***/
+/***
+.content1 p, .content2 p {
+    font-size: 1.414rem;
+    padding: 0.5rem 2rem 2rem;
+}
+***/
+
+/***********************************************
+                MEDIA QUERIES
+***********************************************/
+@import "queries";

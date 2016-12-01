@@ -1,0 +1,39 @@
+// Calculate Column Widths
+// Use an INCLUDE somewhere here
+
+
+// Variable Arguments (elipses) - http://sass-lang.com/documentation/file.SASS_REFERENCE.html#variable_arguments
+
+
+@mixin media-query($min, $max) {
+    @media all and (min-width: $min + 1 px) and (max-width: $max px){
+        @content
+    }
+}
+
+@mixin media-query_min($min) {
+    @media all and (min-width: $min + 1 px) {
+        @content
+    }
+}
+
+@mixin columnSize($numberColumns, $gutter:0%, $width:100%) {
+    width: ($width - ($gutter * ($numberColumns - 1))) / $numberColumns;
+    
+}
+
+@mixin box-sizing($value...) {
+    -webkit-box-sizing: $value;
+    box-sizing: $value;
+}
+
+@mixin clearfix() {
+    display:table;
+    clear: both;
+    content: "";
+}
+
+@mixin colorSet($bg, $color) {
+    background-color: $bg;
+    color: $color;
+}
